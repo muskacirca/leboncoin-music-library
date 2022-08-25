@@ -1,7 +1,6 @@
 package com.example.leboncoin
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -9,7 +8,11 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import com.example.leboncoin.databinding.ActivityMainBinding
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class MusicLibraryActivity : AppCompatActivity() {
@@ -18,6 +21,8 @@ class MusicLibraryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     @Inject lateinit var viewModel: MusicLibraryViewModel
+
+    private lateinit var albumsCount: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -33,12 +38,18 @@ class MusicLibraryActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
+
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+        this.albumsCount = findViewById(R.id.albums_count_text)
+
+        viewModel.uiState.onEach { state ->
+
+            this.albumsCount.text = if (state.isLoading)
+                getString(R.string.albums_loading)
+            else getString(R.string.albums_count, state.items.size)
+
+        }.launchIn(MainScope())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

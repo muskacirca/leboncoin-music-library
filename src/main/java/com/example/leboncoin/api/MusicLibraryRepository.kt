@@ -2,36 +2,36 @@ package com.example.leboncoin.api
 
 import com.example.leboncoin.model.Album
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 interface MusicLibraryRepository {
 
-    suspend fun getAlbums(): List<Album>
+    fun getAlbums(): Flow<FetchResult<List<Album>>>
 }
 
 class LocalMusicLibrary : MusicLibraryRepository {
-    override suspend fun getAlbums(): List<Album> {
+    override fun getAlbums(): Flow<FetchResult<List<Album>>> {
         TODO("Not yet implemented")
     }
 }
 
 
-class RemoteMusicLibrary @Inject constructor(
+open class RemoteMusicLibrary @Inject constructor(
     private val musicLibraryApi: MusicLibraryApi) : MusicLibraryRepository {
-    override suspend fun getAlbums(): List<Album> {
-        return withContext(Dispatchers.IO) {
+
+    override fun getAlbums(): Flow<FetchResult<List<Album>>> {
+        return MutableStateFlow(runBlocking(Dispatchers.IO) {
             val response = musicLibraryApi.getAlbums()
             when (response.code()) {
-                200 -> response.body() ?: emptyList()
-                else -> throw FetchError(Errors.NETWORK_ERROR)
+                200 -> FetchSuccess(response.body() ?: emptyList())
+                else -> FetchError("NOT_FOUND")
             }
-        }
+        })
     }
 }
-enum class Errors {
-    NETWORK_ERROR
-}
-
-sealed class ApiException(message: Errors? = null, cause: Throwable? = null) : RuntimeException(message?.name, cause)
-class FetchError(message: Errors, cause: Throwable? = null) : ApiException(message, cause)
+sealed interface FetchResult<T>
+class FetchSuccess<T>(val items: T) : FetchResult<T>
+class FetchError<T>(val message: String, cause: T? = null): FetchResult<T>
