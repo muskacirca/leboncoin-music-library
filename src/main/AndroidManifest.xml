@@ -4,6 +4,7 @@
     package="com.example.leboncoin">
 
     <application
+        android:name=".MusicLibraryApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"

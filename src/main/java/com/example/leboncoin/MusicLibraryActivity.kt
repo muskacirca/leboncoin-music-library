@@ -10,14 +10,21 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import com.example.leboncoin.databinding.ActivityMainBinding
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MusicLibraryActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
+    @Inject lateinit var viewModel: MusicLibraryViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+
+        (applicationContext as MusicLibraryApplication).appComponent.inject(this)
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
