@@ -1,4 +1,7 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="half_margin">8dp</dimen>
+    <dimen name="album_title_size">18sp</dimen>
     <dimen name="list_item_height">32dp</dimen>
+    <dimen name="thumbnail_height">100dp</dimen>
 </resources>
