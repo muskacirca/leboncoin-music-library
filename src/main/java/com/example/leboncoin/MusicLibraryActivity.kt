@@ -1,19 +1,26 @@
 package com.example.leboncoin
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import butterknife.BindView
+import butterknife.ButterKnife
 import com.example.leboncoin.databinding.ActivityMainBinding
+import com.example.leboncoin.model.AlbumRecyclerAdapter
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
+
 
 class MusicLibraryActivity : AppCompatActivity() {
 
@@ -22,7 +29,12 @@ class MusicLibraryActivity : AppCompatActivity() {
 
     @Inject lateinit var viewModel: MusicLibraryViewModel
 
-    private lateinit var albumsCount: TextView
+    @BindView(R.id.albums_count_text)
+    lateinit var albumsCount: TextView
+
+    @BindView(R.id.albums_recycler_view)
+    lateinit var recyclerView: RecyclerView
+    lateinit var adapter: AlbumRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -33,7 +45,7 @@ class MusicLibraryActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        ButterKnife.bind(this);
         setSupportActionBar(binding.toolbar)
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
@@ -41,15 +53,33 @@ class MusicLibraryActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        this.albumsCount = findViewById(R.id.albums_count_text)
+        setUpAlbumRecyclerView()
 
-        viewModel.uiState.onEach { state ->
+        viewModel.uiState
+            .onEach { updateUI(it) }
+            .launchIn(MainScope())
+    }
 
-            this.albumsCount.text = if (state.isLoading)
-                getString(R.string.albums_loading)
-            else getString(R.string.albums_count, state.items.size)
+    private fun updateUI(state: MusicLibraryState) {
 
-        }.launchIn(MainScope())
+        if (state.isLoading) {
+
+            recyclerView.visibility = View.GONE
+            this.albumsCount.text = getString(R.string.albums_loading)
+
+        } else {
+
+            this.albumsCount.visibility = View.GONE
+            this.recyclerView.visibility = View.VISIBLE
+
+            adapter.updateData(state.items.toTypedArray())
+        }
+    }
+
+    private fun setUpAlbumRecyclerView() {
+        this.recyclerView.layoutManager = LinearLayoutManager(this)
+        this.adapter = AlbumRecyclerAdapter(emptyArray())
+        this.recyclerView.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
