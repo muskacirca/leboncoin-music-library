@@ -1,30 +1,29 @@
 package com.example.leboncoin
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.leboncoin.databinding.FragmentSecondBinding
+import com.example.leboncoin.databinding.AlbumPageFragementBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
-class SecondFragment : Fragment() {
+@AndroidEntryPoint
+class AlbumFragment : Fragment() {
 
-    private var _binding: FragmentSecondBinding? = null
+    @Inject
+    lateinit var viewModel: MusicLibraryViewModel
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private var _binding: AlbumPageFragementBinding? = null
+
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        _binding = AlbumPageFragementBinding.inflate(inflater, container, false)
         return binding.root
 
     }

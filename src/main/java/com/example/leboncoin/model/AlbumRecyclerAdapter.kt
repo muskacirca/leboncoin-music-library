@@ -1,20 +1,21 @@
 package com.example.leboncoin.model
 
-import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.OnClick
 import com.example.leboncoin.R
 import com.squareup.picasso.Picasso
 
 
 class AlbumRecyclerAdapter(private var dataSet: Array<Album>) : RecyclerView.Adapter<AlbumRecyclerAdapter.ViewHolder>() {
-
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -26,6 +27,11 @@ class AlbumRecyclerAdapter(private var dataSet: Array<Album>) : RecyclerView.Ada
 
         init {
             ButterKnife.bind(this, view);
+        }
+
+        @OnClick
+        fun onClick(view: View) {
+            Navigation.findNavController(view).navigate(R.id.action_FirstFragment_to_SecondFragment, Bundle())
         }
 
     }

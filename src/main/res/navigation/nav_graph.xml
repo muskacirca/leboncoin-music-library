@@ -17,9 +17,14 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.leboncoin.SecondFragment"
+        android:name="com.example.leboncoin.AlbumFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/album_page_fragement">
+
+        <argument
+            android:name="albumId"
+            app:argType="integer"
+            android:defaultValue="0" />
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
