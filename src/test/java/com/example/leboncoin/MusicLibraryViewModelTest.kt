@@ -1,7 +1,11 @@
 package com.example.leboncoin
 
-import com.example.leboncoin.api.*
-import com.example.leboncoin.model.Album
+import com.example.leboncoin.music.library.FetchSuccess
+import com.example.leboncoin.music.library.MusicLibraryState
+import com.example.leboncoin.music.library.MusicLibraryViewModel
+import com.example.leboncoin.music.library.RemoteMusicLibrary
+import com.example.leboncoin.music.library.api.*
+import com.example.leboncoin.music.library.model.Album
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*

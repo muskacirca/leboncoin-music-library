@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">LeBonCoin</string>
 
-    <string name="albums_loading">Votre bibliothèque musicale est en cours de chargement</string>
+    <string name="albums_loading">Votre bibliothèque musicale est en cours de chargement ...</string>
     <string name="albums_count">%1$d albums ont été téléchargés</string>
 
 

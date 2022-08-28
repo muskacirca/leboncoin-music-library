@@ -1,4 +1,4 @@
-package com.example.leboncoin
+package com.example.leboncoin.music.library.views
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.example.leboncoin.R
 import com.example.leboncoin.databinding.MusicLibraryFragmentBinding
-import com.example.leboncoin.model.AlbumRecyclerAdapter
+import com.example.leboncoin.music.library.MusicLibraryState
+import com.example.leboncoin.music.library.MusicLibraryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.launchIn
@@ -27,8 +29,8 @@ class MusicLibraryFragment : Fragment() {
     @Inject
     lateinit var viewModel: MusicLibraryViewModel
 
-    @BindView(R.id.albums_count_text)
-    lateinit var albumsCount: TextView
+    @BindView(R.id.user_message)
+    lateinit var userMessage: TextView
 
     @BindView(R.id.albums_recycler_view)
     lateinit var recyclerView: RecyclerView
@@ -55,11 +57,18 @@ class MusicLibraryFragment : Fragment() {
         if (state.isLoading) {
 
             recyclerView.visibility = View.GONE
-            this.albumsCount.text = getString(R.string.albums_loading)
+            this.userMessage.visibility = View.VISIBLE
+            this.userMessage.text = getString(R.string.albums_loading)
+
+        } else if (state.userMessage != null) {
+
+            this.recyclerView.visibility = View.GONE
+            this.userMessage.visibility = View.VISIBLE
+            this.userMessage.text = state.userMessage
 
         } else {
 
-            this.albumsCount.visibility = View.GONE
+            this.userMessage.visibility = View.GONE
             this.recyclerView.visibility = View.VISIBLE
 
             adapter.updateData(state.items.toTypedArray())

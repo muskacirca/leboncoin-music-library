@@ -1,7 +1,6 @@
-package com.example.leboncoin.modules
+package com.example.leboncoin.music.library.api
 
 import android.content.Context
-import com.example.leboncoin.api.MusicLibraryApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

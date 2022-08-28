@@ -1,8 +1,12 @@
 @file:Suppress("EXPERIMENTAL_FEATURE_WARNING")
 
-package com.example.leboncoin.api
+package com.example.leboncoin.music.library.api
 
-import com.example.leboncoin.model.Album
+import com.example.leboncoin.music.library.FetchError
+import com.example.leboncoin.music.library.FetchResult
+import com.example.leboncoin.music.library.FetchSuccess
+import com.example.leboncoin.music.library.RemoteMusicLibrary
+import com.example.leboncoin.music.library.model.Album
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType
@@ -21,8 +25,10 @@ class RemoteMusicLibraryTest {
 
     private lateinit var instance: RemoteMusicLibrary
 
-    private val albums = listOf(Album(1, 1, "title", "url", "thumbnailUrl"),
-        Album(2, 2, "title 2", "url 2", "thumbnailUrl 2"))
+    private val albums = listOf(
+        Album(1, 1, "title", "url", "thumbnailUrl"),
+        Album(2, 2, "title 2", "url 2", "thumbnailUrl 2")
+    )
 
     private lateinit var musicLibraryApi: MusicLibraryApi
 

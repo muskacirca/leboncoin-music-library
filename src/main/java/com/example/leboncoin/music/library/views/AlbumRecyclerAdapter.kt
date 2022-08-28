@@ -1,4 +1,4 @@
-package com.example.leboncoin.model
+package com.example.leboncoin.music.library.views
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +12,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.example.leboncoin.R
+import com.example.leboncoin.music.library.model.Album
 import com.squareup.picasso.Picasso
 
 

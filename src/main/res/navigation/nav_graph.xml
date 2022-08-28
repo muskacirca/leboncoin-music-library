@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/MusicLibraryFragment"
-        android:name="com.example.leboncoin.MusicLibraryFragment"
+        android:name="com.example.leboncoin.music.library.views.MusicLibraryFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/music_library_fragment">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.leboncoin.AlbumFragment"
+        android:name="com.example.leboncoin.music.library.views.AlbumFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/album_page_fragement">
 

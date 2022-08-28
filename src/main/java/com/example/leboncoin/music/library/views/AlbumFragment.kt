@@ -1,13 +1,14 @@
-package com.example.leboncoin
+package com.example.leboncoin.music.library.views
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.example.leboncoin.R
 import com.example.leboncoin.databinding.AlbumPageFragementBinding
+import com.example.leboncoin.music.library.MusicLibraryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

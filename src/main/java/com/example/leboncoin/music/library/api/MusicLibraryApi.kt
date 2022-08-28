@@ -1,6 +1,6 @@
-package com.example.leboncoin.api
+package com.example.leboncoin.music.library.api
 
-import com.example.leboncoin.model.Album
+import com.example.leboncoin.music.library.model.Album
 import retrofit2.Response
 import retrofit2.http.GET
 
