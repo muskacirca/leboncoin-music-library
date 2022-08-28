@@ -1,6 +1,7 @@
 package com.example.leboncoin.music.library.api
 
 import android.content.Context
+import com.example.leboncoin.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +17,7 @@ object NetworkModule {
     @Provides
     fun providedMusicLibraryApi(@ApplicationContext context: Context): MusicLibraryApi {
         return Retrofit.Builder()
-            .baseUrl("https://static.leboncoin.fr") // TODO put int conf
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(MusicLibraryApi::class.java)
