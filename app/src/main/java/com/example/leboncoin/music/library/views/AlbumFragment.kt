@@ -19,7 +19,6 @@ class AlbumFragment : Fragment() {
     lateinit var viewModel: MusicLibraryViewModel
 
     private var _binding: AlbumPageFragementBinding? = null
-
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

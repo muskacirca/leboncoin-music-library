@@ -5,15 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.example.leboncoin.R
 import com.example.leboncoin.databinding.MusicLibraryFragmentBinding
 import com.example.leboncoin.music.library.MusicLibraryState
 import com.example.leboncoin.music.library.MusicLibraryViewModel
+import com.example.leboncoin.music.library.model.Album
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.launchIn
@@ -28,20 +26,12 @@ class MusicLibraryFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: MusicLibraryViewModel
-
-    @BindView(R.id.user_message)
-    lateinit var userMessage: TextView
-
-    @BindView(R.id.albums_recycler_view)
-    lateinit var recyclerView: RecyclerView
     lateinit var adapter: AlbumRecyclerAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedState: Bundle?): View {
         _binding = MusicLibraryFragmentBinding.inflate(inflater, container, false)
-        _binding?.root?.let { ButterKnife.bind(this, it) }
         setUpAlbumRecyclerView()
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,29 +46,38 @@ class MusicLibraryFragment : Fragment() {
 
         if (state.isLoading) {
 
-            recyclerView.visibility = View.GONE
-            this.userMessage.visibility = View.VISIBLE
-            this.userMessage.text = getString(R.string.albums_loading)
+            this.binding.albumsRecyclerView.visibility = View.GONE
+            this.binding.userMessage.visibility = View.VISIBLE
+            this.binding.userMessage.text = getString(R.string.albums_loading)
 
         } else if (state.userMessage != null) {
 
-            this.recyclerView.visibility = View.GONE
-            this.userMessage.visibility = View.VISIBLE
-            this.userMessage.text = state.userMessage
+            this.binding.albumsRecyclerView.visibility = View.GONE
+            this.binding.userMessage.visibility = View.VISIBLE
+            this.binding.userMessage.text = state.userMessage
 
         } else {
 
-            this.userMessage.visibility = View.GONE
-            this.recyclerView.visibility = View.VISIBLE
+            this.binding.userMessage.visibility = View.GONE
+            this.binding.albumsRecyclerView.visibility = View.VISIBLE
 
             adapter.updateData(state.items.toTypedArray())
         }
     }
 
     private fun setUpAlbumRecyclerView() {
-        this.recyclerView.layoutManager = LinearLayoutManager(this.context)
-        this.adapter = AlbumRecyclerAdapter(emptyArray())
-        this.recyclerView.adapter = adapter
+        this.binding.albumsRecyclerView.layoutManager = LinearLayoutManager(this.context)
+        this.adapter = AlbumRecyclerAdapter(emptyArray(), onAlbumClick())
+        this.binding.albumsRecyclerView.adapter = adapter
+    }
+
+    private fun onAlbumClick(): OnItemClickListener<Album> {
+        return object : OnItemClickListener<Album> {
+            override fun onItemClick(view: View, item: Album) {
+                Navigation.findNavController(view)
+                    .navigate(R.id.action_FirstFragment_to_SecondFragment, Bundle())
+            }
+        }
     }
 
     override fun onDestroyView() {

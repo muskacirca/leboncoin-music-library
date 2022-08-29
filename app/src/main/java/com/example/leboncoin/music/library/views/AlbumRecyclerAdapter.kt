@@ -1,40 +1,31 @@
 package com.example.leboncoin.music.library.views
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.example.leboncoin.R
+import com.example.leboncoin.databinding.AlbumRowLayoutBinding
 import com.example.leboncoin.music.library.model.Album
 import com.squareup.picasso.Picasso
 
-
-class AlbumRecyclerAdapter(private var dataSet: Array<Album>) : RecyclerView.Adapter<AlbumRecyclerAdapter.ViewHolder>() {
+class AlbumRecyclerAdapter(
+    private var dataSet: Array<Album>,
+    private val onItemClickListener: OnItemClickListener<Album>
+) : RecyclerView.Adapter<AlbumRecyclerAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        @BindView(R.id.album_thumbnail)
-        lateinit var albumThumbnailView: ImageView
+        private val binding = AlbumRowLayoutBinding.bind(view)
 
-        @BindView(R.id.album_row_title)
-        lateinit var  textView: TextView
-
-        init {
-            ButterKnife.bind(this, view);
+        fun bind(album: Album, listener: OnItemClickListener<Album>) {
+            binding.albumRow.setOnClickListener { listener.onItemClick(it, album) }
+            binding.albumRowTitle.text = album.title
+            if (binding.albumThumbnail.drawable == null) {
+                Picasso.get().load(album.thumbnailUrl)
+                    .into(binding.albumThumbnail)
+            }
         }
-
-        @OnClick
-        fun onClick(view: View) {
-            Navigation.findNavController(view).navigate(R.id.action_FirstFragment_to_SecondFragment, Bundle())
-        }
-
     }
 
     fun updateData(albums: Array<Album>) {
@@ -51,13 +42,13 @@ class AlbumRecyclerAdapter(private var dataSet: Array<Album>) : RecyclerView.Ada
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.textView.text = dataSet[position].title
-        if (viewHolder.albumThumbnailView.drawable == null) {
-            Picasso.get().load(dataSet[position].thumbnailUrl)
-                .into(viewHolder.albumThumbnailView)
-        }
+        viewHolder.bind(dataSet[position], onItemClickListener)
     }
 
     override fun getItemCount() = dataSet.size
 
+}
+
+interface OnItemClickListener<T> {
+    fun onItemClick(view: View, item: T)
 }
