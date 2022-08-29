@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.leboncoin.R
 import com.example.leboncoin.databinding.AlbumRowLayoutBinding
+import com.example.leboncoin.music.library.OnItemClickListener
 import com.example.leboncoin.music.library.model.Album
 import com.squareup.picasso.Picasso
 
@@ -22,7 +23,9 @@ class AlbumRecyclerAdapter(
             binding.albumRow.setOnClickListener { listener.onItemClick(it, album) }
             binding.albumRowTitle.text = album.title
             if (binding.albumThumbnail.drawable == null) {
-                Picasso.get().load(album.thumbnailUrl)
+                Picasso.get()
+                    .load(album.thumbnailUrl)
+                    .error(R.drawable.ic_img_not_found)
                     .into(binding.albumThumbnail)
             }
         }
@@ -47,8 +50,4 @@ class AlbumRecyclerAdapter(
 
     override fun getItemCount() = dataSet.size
 
-}
-
-interface OnItemClickListener<T> {
-    fun onItemClick(view: View, item: T)
 }

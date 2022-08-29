@@ -15,23 +15,26 @@
             android:id="@+id/album_cover"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="150dp"
-            android:minWidth="150dp"
             android:maxHeight="@dimen/thumbnail_height"
+            android:minWidth="150dp"
+            android:minHeight="150dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_launcher_background">
 
         </ImageView>
 
         <TextView
             android:id="@+id/album_page_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:textAlignment="center"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/fab_margin"
             android:layout_marginTop="@dimen/fab_margin"
             android:layout_marginEnd="@dimen/fab_margin"
-            android:text="album name de fou qu'on adore un peu trop"
+            android:text="album name de fou qu'on adore un peu trop et qui est trèèèès long"
             android:textSize="@dimen/album_title_size"
+            android:maxLines="3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/album_cover" />

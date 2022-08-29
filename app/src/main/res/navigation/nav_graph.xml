@@ -12,6 +12,7 @@
         tools:layout="@layout/music_library_fragment">
 
         <action
+            app:exitAnim="@animator/nav_default_exit_anim"
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
     </fragment>
@@ -22,9 +23,8 @@
         tools:layout="@layout/album_page_fragement">
 
         <argument
-            android:name="albumId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:name="album"
+            app:argType="com.example.leboncoin.music.library.model.Album" />
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"

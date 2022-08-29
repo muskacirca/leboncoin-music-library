@@ -5,12 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.leboncoin.R
 import com.example.leboncoin.databinding.MusicLibraryFragmentBinding
 import com.example.leboncoin.music.library.MusicLibraryState
 import com.example.leboncoin.music.library.MusicLibraryViewModel
+import com.example.leboncoin.music.library.OnItemClickListener
 import com.example.leboncoin.music.library.model.Album
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
@@ -26,6 +27,7 @@ class MusicLibraryFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: MusicLibraryViewModel
+
     lateinit var adapter: AlbumRecyclerAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedState: Bundle?): View {
@@ -74,8 +76,8 @@ class MusicLibraryFragment : Fragment() {
     private fun onAlbumClick(): OnItemClickListener<Album> {
         return object : OnItemClickListener<Album> {
             override fun onItemClick(view: View, item: Album) {
-                Navigation.findNavController(view)
-                    .navigate(R.id.action_FirstFragment_to_SecondFragment, Bundle())
+                val action = MusicLibraryFragmentDirections.actionFirstFragmentToSecondFragment(item)
+                view.findNavController().navigate(action)
             }
         }
     }
