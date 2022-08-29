@@ -48,7 +48,6 @@ class MusicLibraryControllerTest {
 
         val result = instance.getAlbums()
 
-
         assertTrue(result is FetchSuccess)
     }
 }
