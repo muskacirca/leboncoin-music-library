@@ -21,7 +21,7 @@ class MusicLibraryViewModel @Inject constructor(controller: MusicLibraryControll
         viewModelScope.launch {
             uiState.emit(MusicLibraryState(isLoading = true))
             val musicLibraryState = when (val albums = controller.getAlbums()) {
-                is FetchError -> MusicLibraryState(userMessage = "Impossible de charger votre bibliothèque musicale") // TODO move in resource
+                is FetchError -> MusicLibraryState(userMessage = "Impossible de charger votre bibliothèque musicale")
                 is FetchSuccess<List<Album>> -> MusicLibraryState(items = albums.items)
             }
             uiState.emit(musicLibraryState)

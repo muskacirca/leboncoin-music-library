@@ -11,10 +11,10 @@ interface MusicLibraryService {
     suspend fun getAlbums(): FetchResult<List<Album>>
 }
 
-class LocalMusicLibrary @Inject constructor(
+open class LocalMusicLibrary @Inject constructor(
     private val musicLibraryRepository: MusicLibraryRepository) : MusicLibraryService {
 
-    fun isDatabasePopulated(): Boolean {
+    open fun isDatabasePopulated(): Boolean {
         return musicLibraryRepository.isPopulated()
     }
 

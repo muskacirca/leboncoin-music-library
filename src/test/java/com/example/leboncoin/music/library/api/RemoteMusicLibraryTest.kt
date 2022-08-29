@@ -38,9 +38,8 @@ class RemoteMusicLibraryTest {
         setUpTest(FetchSuccess(albums))
 
         val result = instance.getAlbums()
-        val actual = result.first()
-        assertTrue(actual is FetchSuccess)
-        assertEquals(2, (actual as FetchSuccess).items.size)
+        assertTrue(result is FetchSuccess)
+        assertEquals(2, (result as FetchSuccess).items.size)
 
         verifyBlocking(musicLibraryApi) { getAlbums() }
     }
@@ -51,9 +50,8 @@ class RemoteMusicLibraryTest {
         setUpTest(FetchError("NOT_FOUND"))
 
         val result = instance.getAlbums()
-        val actual = result.first()
-        assertTrue("fetch should failed", actual is FetchError)
-        assertEquals("NOT_FOUND", (actual as FetchError).message)
+        assertTrue("fetch should failed", result is FetchError)
+        assertEquals("NOT_FOUND", (result as FetchError).message)
 
         verifyBlocking(musicLibraryApi) { getAlbums() }
     }

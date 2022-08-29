@@ -1,17 +1,19 @@
 package com.example.leboncoin.music.library
 
 import com.example.leboncoin.music.library.model.Album
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MusicLibraryController @Inject constructor(
+open class MusicLibraryController @Inject constructor(
 
     private val localMusicLibrary: LocalMusicLibrary,
-    private val remoteMusicLibrary: RemoteMusicLibrary) {
+    private val remoteMusicLibrary: RemoteMusicLibrary,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+) {
 
-    suspend fun getAlbums(): FetchResult<List<Album>> {
-        return withContext(Dispatchers.IO) {
+    open suspend fun getAlbums(): FetchResult<List<Album>> {
+        return withContext(ioDispatcher) {
             if (localMusicLibrary.isDatabasePopulated()) {
                 localMusicLibrary.getAlbums()
 
